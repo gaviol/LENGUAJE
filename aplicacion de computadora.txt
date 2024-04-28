@@ -1,0 +1,151 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Aplicacion {
+    private ArrayList<registro> registros;
+    private Scanner scanner;
+
+    public Aplicacion() {
+        registros = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void mostrarMenu() {
+        int opcion;
+        do {
+            System.out.println("----- Menú Principal -----");
+            System.out.println("1. Crear un Registro");
+            System.out.println("2. Buscar un Registro");
+            System.out.println("3. Editar un Registro");
+            System.out.println("4. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer de entrada
+            ejecutarOpcion(opcion);
+        } while (opcion != 4);
+    }
+
+    public void ejecutarOpcion(int opcion) {
+        switch (opcion) {
+            case 1:
+                crearRegistro();
+                break;
+            case 2:
+                buscarRegistro();
+                break;
+            case 3:
+                editarRegistro();
+                break;
+            case 4:
+                System.out.println("¡Hasta luego!");
+                break;
+            default:
+                System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                break;
+        }
+    }
+
+    public void crearRegistro() {
+        // Solicitar al usuario que ingrese los datos del nuevo registro
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer de entrada
+
+        System.out.print("Marca: ");
+        String marca = scanner.nextLine();
+
+        System.out.print("Modelo: ");
+        String modelo = scanner.nextLine();
+
+        System.out.print("Año: ");
+        int año = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer de entrada
+
+        System.out.print("Tipo: ");
+        String tipo = scanner.nextLine();
+
+        System.out.print("Número de Chasis: ");
+        String numeroChasis = scanner.nextLine();
+
+        System.out.print("Color: ");
+        String color = scanner.nextLine();
+
+        // Crear un nuevo objeto Registro con los datos ingresados por el usuario
+        registro nuevoRegistro = new registro(id, marca, modelo, año, tipo, numeroChasis, color);
+
+        // Validar el nuevo registro antes de agregarlo a la lista
+        if (nuevoRegistro.validarRegistro()) {
+            registros.add(nuevoRegistro);
+            System.out.println("Registro creado correctamente.");
+        } else {
+            System.out.println("Error al crear el registro. Por favor, inténtalo de nuevo.");
+        }
+    }
+
+    public void buscarRegistro() {
+        // Solicitar al usuario que ingrese el ID del registro a buscar
+        System.out.print("Ingrese el ID del registro a buscar: ");
+        int idBuscar = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer de entrada
+
+        // Buscar el registro en la lista de registros
+        for (registro registro : registros) {
+            if (registro.getId() == idBuscar) {
+                System.out.println("Registro encontrado:");
+                // Imprimir los detalles del registro encontrado
+                System.out.println("ID: " + registro.getId());
+                System.out.println("Marca: " + registro.getMarca());
+              System.out.println("Modelo: " + registro.getModelo());
+                System.out.println("Año: " + registro.getAño());
+                System.out.println("Tipo: " + registro.getTipo());
+                System.out.println("Número de Chasis: " + registro.getNumeroChasis());
+                System.out.println("Color: " + registro.getColor());
+                return;
+            }
+        }
+        // Si no se encuentra el registro, mostrar un mensaje
+        System.out.println("Registro no encontrado.");
+    }
+
+    public void editarRegistro() {
+        // Solicitar al usuario que ingrese el ID del registro a editar
+        System.out.print("Ingrese el ID del registro a editar: ");
+        int idEditar = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer de entrada
+
+        // Buscar el registro en la lista de registros
+        for (registro registro : registros) {
+            if (registro.getId() == idEditar) {
+                // Implementar la lógica para permitir al usuario editar los campos del registro
+                System.out.print("Ingrese la nueva marca: ");
+                registro.setMarca(scanner.nextLine());
+
+                System.out.print("Ingrese el nuevo modelo: ");
+                registro.setModelo(scanner.nextLine());
+
+                System.out.print("Ingrese el nuevo año: ");
+                registro.setAño(scanner.nextInt());
+                scanner.nextLine(); // Limpiar el buffer de entrada
+
+                System.out.print("Ingrese el nuevo tipo: ");
+                registro.setTipo(scanner.nextLine());
+
+                System.out.print("Ingrese el nuevo número de chasis: ");
+                registro.setNumeroChasis(scanner.nextLine());
+
+                System.out.print("Ingrese el nuevo color: ");
+                registro.setColor(scanner.nextLine());
+
+                System.out.println("Registro editado correctamente.");
+                return;
+            }
+        }
+        // Si no se encuentra el registro, mostrar un mensaje
+        System.out.println("Registro no encontrado.");
+    }
+
+    public static void main(String[] args) {
+        Aplicacion app = new Aplicacion();
+        app.mostrarMenu();
+    }
+}
